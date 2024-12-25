@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+
+<body>
+ <div class="wrapper">
+    <nav class="nav">
+        <div class="nav-logo">
+            <p>LOGO .</p>
+        </div>
+        <div class="nav-menu" id="navMenu">
+            <ul>
+                <li><a href="#" class="link active">Home</a></li>
+                <li><a href="#" class="link">Blog</a></li>
+                <li><a href="#" class="link">Services</a></li>
+                <li><a href="#" class="link">About</a></li>
+            </ul>
+        </div>
+        <div class="nav-menu-btn">
+            <i class="bx bx-menu" onclick="myMenuFunction()"></i>
+        </div>
+    </nav>
+<!------------------- registration form -------------------------->
+ <form method="post" action="/register" enctype="multipart/form-data">
+     <div class="add-teacher-container" id="add-teacher">
+         <div class="top">
+                <header>Thêm Giáo Viên</header>
+            </div>
+        <div class="input-box">
+            <label for="surname">Họ:</label>
+            <input required type="text" type="text" class="input-field"  placeholder="Họ" id="surname" name="surname" />
+            <i class="bx bx-user"></i>
+        </div>
+        <div class="input-box">
+            <label for="name">Tên:</label>
+            <input required type="text" type="text" class="input-field"  placeholder="Tên" id="name" name="name" />
+            <i class="bx bx-user"></i>
+        </div>
+         <div class="input-box">
+            <label for="name">Giới tính:</label>
+            <input type="radio" id="male" name="gender" value="Male">
+             <label for="male">Nam</label>
+             <input type="radio" id="female" name="gender" value="Female">
+             <label for="female">Nữ</label>
+
+        </div>
+         <div class="input-box">
+             <label for="birth-date">Ngày sinh:</label>
+            <input type="date" class="input-field"  {#  #}placeholder="Ngày sinh" id="birth-date" name="birth-date" />
+            <i class="bx bx-user"></i>
+        </div>
+        <div class="input-box">
+            <label for="phone-number">Số điện thoại:</label>
+            <input type="tel" pattern="[0-9]{10}" class="input-field"  placeholder="0123456789" id="phone-number" name="phone-number" />
+            <i class="bx bx-user"></i>
+        </div>
+        <div class="input-box">
+            <label for="Email">Email:</label>
+            <input type="email" class="input-field"  placeholder="Email" id="Email" name="Email" />
+            <i class="bx bx-user"></i>
+        </div>
+        <div class="input-box">
+            <label for="address">Địa chỉ:</label>
+            <input type="text" class="input-field"  placeholder="Địa chỉ" id="address" name="address" />
+            <i class="bx bx-user"></i>
+        </div>
+          <div class="input-box">
+            <label for="degree">Bằng cấp:</label>
+            <input type="text" class="input-field"  placeholder="Bằng cấp" id="degree" name="degree" />
+            <i class="bx bx-user"></i>
+        </div>
+         <div class="input-box">
+              <input type="submit" value="Lưu thông tin">
+              <input type="reset" value="Xóa hết">
+         </div>
+
+     </div>
+
+</form>
+<script>
+
+   function myMenuFunction() {
+    var i = document.getElementById("navMenu");
+    if(i.className === "nav-menu") {
+        i.className += " responsive";
+    } else {
+        i.className = "nav-menu";
+    }
+   }
+
+</script>
+<script>
+    var a = document.getElementById("loginBtn");
+    var b = document.getElementById("registerBtn");
+    var x = document.getElementById("login");
+    var y = document.getElementById("register");
+    function login() {
+        x.style.left = "4px";
+        y.style.right = "-520px";
+        a.className += " white-btn";
+        b.className = "btn";
+        x.style.opacity = 1;
+        y.style.opacity = 0;
+    }
+    function register() {
+        x.style.left = "-510px";
+        y.style.right = "5px";
+        a.className = "btn";
+        b.className += " white-btn";
+        x.style.opacity = 0;
+        y.style.opacity = 1;
+    }
+</script>
+ </div>
+</body>
+</html>

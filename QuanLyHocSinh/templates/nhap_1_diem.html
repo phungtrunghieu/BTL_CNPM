@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Nhập Điểm{% endblock %}
+
+{% block content %}
+
+
+<div class="container mt-4">
+    <h2>Nhập Điểm</h2>
+
+    <!-- Hiển thị thông báo nếu có -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="alert alert-{{ messages[0][0] }} mt-3">
+                {{ messages[0][1] }}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('nhap_diem') }}">
+        <!-- Chọn học sinh -->
+        <div class="form-group">
+            <label for="id_hoc_sinh">Chọn Học Sinh:</label>
+            <select class="form-control" id="id_hoc_sinh" name="id_hoc_sinh" required>
+                <option value="" disabled selected>Chọn học sinh</option>
+                {% for hoc_sinh in hoc_sinh_list %}
+                    <option value="{{ hoc_sinh.id }}">{{ hoc_sinh.first_name +" "+ hoc_sinh.last_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Chọn môn học -->
+        <div class="form-group">
+            <label for="id_mon_hoc">Chọn Môn Học:</label>
+            <select class="form-control" id="id_mon_hoc" name="id_mon_hoc" required>
+                <option value="" disabled selected>Chọn môn học</option>
+                {% for mon_hoc in mon_hoc_list %}
+                    <option value="{{ mon_hoc.id }}">{{ mon_hoc.tenMonHoc }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Chọn cột điểm -->
+        <div class="form-group">
+            <label for="id_cot_diem">Chọn Cột Điểm:</label>
+            <select class="form-control" id="id_cot_diem" name="id_cot_diem" required>
+                <option value="" disabled selected>Chọn cột điểm</option>
+                {% for cot_diem in cot_diem_list %}
+                    <option value="{{ cot_diem.id }}">{{ cot_diem.tenCot }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Chọn bảng điểm -->
+        <div class="form-group">
+            <label for="id_bang_diem">Chọn Bảng Điểm:</label>
+            <select class="form-control" id="id_bang_diem" name="id_bang_diem" required>
+                <option value="" disabled selected>Chọn bảng điểm</option>
+                {% for bang_diem in bang_diem_list %}
+                    <option value="{{ bang_diem.id }}">{{ bang_diem. }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Nhập điểm -->
+        <div class="form-group">
+            <label for="so_diem">Điểm:</label>
+            <input type="number" step="0.01" class="form-control" id="so_diem" name="so_diem" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Lưu Điểm</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}

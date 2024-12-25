@@ -1,0 +1,38 @@
+{% extends "base.html" %} {% block title %}Sign Up{% endblock %} {% block
+content %}
+    <form method="POST" action="/signup">
+        <h3 align="center">Sign Up</h3>
+        <div class="form-group">
+            <label for="firstname">Tên họ</label>
+            <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Firstname">
+        </div>
+        <div class="form-group">
+            <label for="lastname">Tên</label>
+            <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Lastname">
+        </div>
+        <div class="form-group">
+            <label for="birthdate">Ngày sinh</label>
+            <input class="form-control" type="date" id="birthdate" name="birthdate">
+        </div>
+        <div class="form-group">
+            <label for="phone">Điện thoại</label>
+            <input class="form-control" type="text" id="phone" name="phone">
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+        </div>
+        <div class="select">
+             <label for="thuoc_khoi">Khối</label>
+            <select name="thuoc_khoi" id="thuoc_khoi" required>
+                <option value="Khoi10">Khối 10</option>
+                <option value="Khoi11">Khối 11</option>
+                <option value="Khoi12">Khối 12</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input type="submit" class="submit" value="Register">
+        </div>
+
+    </form>
+{% endblock %}

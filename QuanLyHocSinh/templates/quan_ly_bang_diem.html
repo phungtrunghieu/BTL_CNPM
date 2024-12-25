@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Quản Lý Điểm
+{% endblock %}
+
+{% block content %}
+
+    <h1>Quản Lý Điểm</h1>
+
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Grade Management Form -->
+    <h2>Chọn Khối, Môn và Lớp</h2>
+
+    <form method="POST">
+        <label for="khoi">Chọn Khối:</label>
+        <select name="khoi" id="khoi" required>
+            <option value="" disabled selected>Chọn Khối</option>
+            {% for khoi in khoi_list %}
+                <option value="{{ khoi.idKhoi }}">{{ khoi.tenKhoi }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="mon_hoc">Chọn Môn:</label>
+        <select name="mon_hoc" id="mon_hoc" required>
+            <option value="" disabled selected>Chọn Môn</option>
+            <!-- Subjects will be populated based on selected Khối -->
+        </select>
+
+        <label for="lop">Chọn Lớp:</label>
+        <select name="lop" id="lop" required>
+            <option value="" disabled selected>Chọn Lớp</option>
+            <!-- Classes will be populated based on selected Khối -->
+        </select>
+
+        <button type="submit">Tìm Bảng Điểm</button>
+    </form>
+
+    <hr>
+
+    <!-- Display Grade Tables -->
+    {% if dsbd %}
+        <h2>Bảng Điểm</h2>
+        <ul>
+            {% for table in dsbd %}
+                <li>{{ table.MaMonHoc }} - {{ table.MaLop }}</li> <!-- You can modify this based on your grade table structure -->
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Không có bảng điểm cho lựa chọn này.</p>
+    {% endif %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get elements
+            const gradeBlockSelect = document.getElementById('khoi');  // Corrected ID
+            const subjectSelect = document.getElementById('mon_hoc');  // Corrected ID
+            const classSelect = document.getElementById('lop');  // Corrected ID
+
+            // Handle change event on Khối dropdown
+            gradeBlockSelect.addEventListener('change', function() {
+                const gradeBlockId = gradeBlockSelect.value;
+
+                if (gradeBlockId) {
+                    // Make AJAX request to fetch subjects and classes
+                    fetch(`/get_subject_class_by_grade_block?grade_block_id=${gradeBlockId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            // Clear and populate Subject dropdown
+                            subjectSelect.innerHTML = '<option value="" disabled selected>Chọn Môn</option>';
+                            data.subjects.forEach(function(subject) {
+                                const option = document.createElement('option');
+                                option.value = subject.id;
+                                option.textContent = subject.tenMonHoc;  // Assuming subject has 'tenMonHoc' field
+                                subjectSelect.appendChild(option);
+                            });
+
+                            // Clear and populate Class dropdown
+                            classSelect.innerHTML = '<option value="" disabled selected>Chọn Lớp</option>';
+                            data.classes.forEach(function(classObj) {
+                                const option = document.createElement('option');
+                                option.value = classObj.id;
+                                option.textContent = classObj.tenLop;  // Assuming classObj has 'tenLop' field
+                                classSelect.appendChild(option);
+                            });
+                        })
+                        .catch(error => console.error('Error fetching subjects and classes:', error));
+                } else {
+                    // Clear the options if no Khối is selected
+                    subjectSelect.innerHTML = '<option value="" disabled selected>Chọn Môn</option>';
+                    classSelect.innerHTML = '<option value="" disabled selected>Chọn Lớp</option>';
+                }
+            });
+        });
+    </script>
+
+{% endblock %}

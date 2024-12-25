@@ -1,0 +1,43 @@
+{% extends "base.html" %} {% block title %}Login{% endblock %} {% block content
+%}
+
+ <div id="add" class="section">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5>Thêm Lớp</h5>
+            </div>
+            <div class="card-body">
+                <form id="subjectForm" method="POST" action="/them_lop_tu_dong">
+
+                    <div class="mb-3">
+                        <label for="subjectName" class="form-label">Tên môn học</label>
+                        <input type="text" class="form-control" id="ten_mon_hoc" name="ten_mon_hoc"
+                               placeholder="Nhập tên môn học" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="credits" class="form-label">Thuộc khối</label>
+                        <select class="select" style="width: 100%" name="thuoc_khoi" id="thuoc_khoi" required>
+                            <option value="Khoi10">Khối 10</option>
+                            <option value="Khoi11">Khối 11</option>
+                            <option value="Khoi12">Khối 12</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="subjectName" class="form-label">Mô tả môn học</label>/
+                        <input type="text" class="form-control" id="mo_ta" name="mo_ta"
+                               placeholder="Chi tiết môn học" required>
+                    </div>
+
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success">Lưu</button>
+                        <button type="reset" class="btn btn-secondary">Làm mới</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

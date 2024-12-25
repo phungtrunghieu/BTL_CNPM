@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Môn Học</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="utf-8"/>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link
+            rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous"/>
+    <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+            crossorigin="anonymous"
+    />
+    <style>
+        body {
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Quản Lý</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#add" onclick="showSection('add')">Thêm Môn Học</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#edit" onclick="showSection('edit')">Sửa Môn Học</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#delete" onclick="showSection('delete')">Xóa Môn Học</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/home">Trang chủ</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %} {% if category ==
+    'error' %}
+    <div class="alert alert-danger alter-dismissable fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{% else %}
+    <div class="alert alert-success alter-dismissable fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{% endif %} {% endfor %} {% endif %} {% endwith %}
+<div class="container mt-5">
+    <!-- Form thêm môn học -->
+    <div id="add" class="section">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5>Thêm/Sửa Môn Học</h5>
+            </div>
+            <div class="card-body">
+                <form id="subjectForm" method="POST" action="/them_mon_hoc">
+
+                    <div class="mb-3">
+                        <label for="subjectName" class="form-label">Tên môn học</label>
+                        <input type="text" class="form-control" id="ten_mon_hoc" name="ten_mon_hoc"
+                               placeholder="Nhập tên môn học" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="credits" class="form-label">Thuộc khối</label>
+                        <select class="select" style="width: 100%" name="thuoc_khoi" id="thuoc_khoi" required>
+                            <option value="Khoi10">Khối 10</option>
+                            <option value="Khoi11">Khối 11</option>
+                            <option value="Khoi12">Khối 12</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="subjectName" class="form-label">Mô tả môn học</label>/
+                        <input type="text" class="form-control" id="mo_ta" name="mo_ta"
+                               placeholder="Chi tiết môn học" required>
+                    </div>
+
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success">Lưu</button>
+                        <button type="reset" class="btn btn-secondary">Làm mới</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Form sửa môn học -->
+    <div id="edit" class="section" style="display: none;">
+        <h2 class="text-warning">Sửa Môn Học</h2>
+        <form action="/" method="post">
+            <div class="mb-3">
+                <label for="subjectId" class="form-label">ID Môn Học</label>
+                <input type="text" class="form-control" id="subjectId" name="subject_id" required>
+            </div>
+            <div class="mb-3">
+                <label for="newSubjectName" class="form-label">Tên Mới</label>
+                <input type="text" class="form-control" id="newSubjectName" name="new_subject_name" required>
+            </div>
+            <button type="submit" class="btn btn-warning">Sửa</button>
+        </form>
+    </div>
+
+    <!-- Form xóa môn học -->
+    <div id="delete" class="section" style="display: none;">
+        <h2 class="text-danger">Xóa Môn Học</h2>
+        <form action="/delete_subject" method="post">
+            <div class="mb-3">
+                <label for="deleteSubjectId" class="form-label">ID Môn Học</label>
+                <input type="text" class="form-control" id="deleteSubjectId" name="subject_id" required>
+            </div>
+            <button type="submit" class="btn btn-danger">Xóa</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Hàm hiển thị từng phần dựa trên chức năng được chọn
+    function showSection(sectionId) {
+        const sections = document.querySelectorAll('.section');
+        sections.forEach(section => {
+            section.style.display = section.id === sectionId ? 'block' : 'none';
+        });
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script
+        src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"
+></script>
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"
+></script>
+<script
+        src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"
+></script>
+</body>
+</html>

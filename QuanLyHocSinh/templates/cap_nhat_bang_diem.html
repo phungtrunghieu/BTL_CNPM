@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Tạo Cột Điểm{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Tạo Cột Điểm</h1>
+    <form method="POST">
+        <div class="mb-3">
+            <label for="column_name" class="form-label">Tên Cột Điểm</label>
+            <input type="text" class="form-control" name="column_name" required>
+        </div>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Tên Học Sinh</th>
+                    <th>Điểm</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td>{{ student.tenHocSinh }}</td>
+                    <td>
+                        <input type="hidden" name="student_ids[]" value="{{ student.idHocSinh }}">
+                        <input type="number" class="form-control" name="scores[]" step="0.1" min="0" max="10" required>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <button type="submit" class="btn btn-primary">Tạo Cột Điểm</button>
+    </form>
+</div>
+{% endblock %}

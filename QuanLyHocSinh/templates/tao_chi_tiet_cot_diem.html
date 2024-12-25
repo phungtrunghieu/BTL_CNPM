@@ -1,0 +1,29 @@
+{% extends "base.html" %} {% block title %}
+    {% endblock %} {% block content %}
+<form method="POST" action="/tao_chi_tiet_cot_diem">
+    <label for="idCotDiem">Cột Điểm:</label>
+    <select name="idCotDiem" required>
+        {% for cot in cot_diem_list %}
+        <option value="{{ cot.idCot }}">{{ cot.tenCot }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="idNienKhoa">Niên Khóa:</label>
+    <select name="idNienKhoa" required>
+        {% for nk in nien_khoa_list %}
+        <option value="{{ nk.idNienKhoa }}">{{ nk.tenNienKhoa }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="idMonHoc">Môn Học:</label>
+    <select name="idMonHoc" required>
+        {% for mh in mon_hoc_list %}
+        <option value="{{ mh.idMonHoc }}">{{ mh.tenMonHoc }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Tạo Chi Tiết Cột Điểm</button>
+</form>
+
+
+{% endblock %}

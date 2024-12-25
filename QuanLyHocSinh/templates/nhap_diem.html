@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Nhập Điểm{% endblock %}
+
+{% block content %}
+<form method="POST" action="/luu_diem">
+    <input type="hidden" name="idBangDiem" value="{{ bang_diem.idBangDiem }}">
+
+    {% for hs in hoc_sinh_list %}
+        <h3>{{ hs.first_name +" "+ hs.last_name }}</h3>
+        {% for ct in chi_tiet_cot_diem %}
+            <div class="form-group">
+            <label>{{ ct.cot_diem.tenCot }}:</label>
+            {% set diem_hien_tai = 0 %}
+            {% for chi_tiet_diem in hs.diem %}
+
+                {% if chi_tiet_diem.idChiTietCotDiem == ct.idChiTietCotDiem %}
+                    {% set diem_hien_tai = loop.index0 %}
+                    <input type="number" step="0.1" name="diem_{{ hs.id }}_{{ ct.idChiTietCotDiem }}" value="{{ hs.diem[diem_hien_tai].soDiem }}" required>
+                {% endif %}
+                {% set diem_hien_tai = diem_hien_tai + 1 %}
+            {% endfor %}
+            </div>
+        {% endfor %}
+    {% endfor %}
+    <button type="submit">Lưu điểm</button>
+</form>
+{% endblock %}

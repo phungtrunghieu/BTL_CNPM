@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Tạo Bảng Điểm{% endblock %}
+{% block content %}
+<!-- tao_bang_diem.html -->
+
+<form method="POST" id="bang_diem_form">
+    <div class="select">
+        <label for="khoi">Chọn Khối</label>
+        <select name="khoi" id="khoi" onchange="loadMonHocAndLop()" required>
+            <option value="">Chọn khối</option>
+            {% for khoi in khois %}
+                <option value="{{ khoi.idKhoi }}">{{ khoi.tenKhoi }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="select">
+        <label for="mon_hoc">Môn Học</label>
+        <select name="mon_hoc" id="mon_hoc" required>
+            <option value="">Chọn môn học</option>
+            <!-- Môn học will be dynamically populated here -->
+        </select>
+    </div>
+
+    <div class="select">
+        <label for="lop">Lớp</label>
+        <select name="lop" id="lop" required>
+            <option value="">Chọn lớp</option>
+            <!-- Lớp will be dynamically populated here -->
+        </select>
+    </div>
+
+    <div class="select">
+        <label for="giao_vien">Giáo Viên</label>
+        <select name="giao_vien" id="giao_vien" required>
+            <option value="">Chọn giáo viên</option>
+            {% for gv in giao_viens %}
+                <option value="{{ gv.id }}">{{ gv.first_name +" "+ gv.last_name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="select">
+        <label  for="hoc_ki">Học Kỳ</label>
+        <select name="hoc_ki" id="hoc_ki" required>
+            <option value="HocKi1">Học Kỳ 1</option>
+            <option value="HocKi2">Học Kỳ 2</option>
+        </select>
+    </div>
+
+    <button type="submit">Tạo Bảng Điểm</button>
+</form>
+
+<script>
+    function loadMonHocAndLop() {
+        const khoiId = document.getElementById('khoi').value;
+
+        if (!khoiId) {
+            document.getElementById('mon_hoc').innerHTML = '<option value="">Chọn môn học</option>';
+            document.getElementById('lop').innerHTML = '<option value="">Chọn lớp</option>';
+            return;
+        }
+
+        fetch(`/get_mon_hoc_and_lop/${khoiId}`)
+            .then(response => response.json())
+            .then(data => {
+                let monHocOptions = '<option value="">Chọn môn học</option>';
+                data.mon_hocs.forEach(monHoc => {
+                    monHocOptions += `<option value="${monHoc.idMonHoc}">${monHoc.tenMonHoc}</option>`;
+                });
+                document.getElementById('mon_hoc').innerHTML = monHocOptions;
+
+                let lopOptions = '<option value="">Chọn lớp</option>';
+                data.lops.forEach(lop => {
+                    lopOptions += `<option value="${lop.idLop}">${lop.tenLop}</option>`;
+                });
+                document.getElementById('lop').innerHTML = lopOptions;
+            });
+    }
+</script>
+
+
+{% endblock %}
